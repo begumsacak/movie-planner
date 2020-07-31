@@ -19,11 +19,11 @@ var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "Ilhanirem51!",
-  database: "day_planner_db"
+  password: "ilhanirem51!",
+  database: "movie_planner_db"
 });
 
-connection.connect(function(err) {
+connection.connect(function (err) {
   if (err) {
     console.error("error connecting: " + err.stack);
     return;
@@ -32,6 +32,29 @@ connection.connect(function(err) {
   console.log("connected as id " + connection.threadId);
 });
 
-//ROUTES
+//VIEW ROUTE
+app.get("/", (req, res) => {
+  connection.query("SELECT * FROM movies", (err, data) => {
+    res.render("index", { movies: data })
+    console.log(data)
+  })
+})
+//These will be API routes specifically for data 
+//GET
+//POST
+app.post"/api/movies", (req, res) => {
+  //insert into database
+  //inserting into movie column 
+  connection.query("INSERT INTO movies (movie) VALUES (?)", [newMovieText], (err, response) => {
+    if (err) throw err
+    //error message
+    res.status(200).send()
+  })
+})
+//PUT
+//DELETE
+app.delete("/api/movies/:id", (req,res) => {
+  
+})
 
-app.listen (PORT, () => console.log (`Server listening at ${PORT}`))
+app.listen(PORT, () => console.log(`Server listening at http://localhost:${PORT}`))
