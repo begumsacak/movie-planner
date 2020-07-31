@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "ilhanirem51!",
+  password: "Ilhanirem51!",
   database: "movie_planner_db"
 });
 
@@ -32,32 +32,42 @@ connection.connect(function (err) {
   console.log("connected as id " + connection.threadId);
 });
 
-//VIEW ROUTE
-app.get("/", (req, res) => {
-  connection.query("SELECT * FROM movies", (err, data) => {
-    res.render("index", { movies: data })
-    console.log(data)
+// VIEW ROUTE
+app.get('/', (req, res) => {
+  connection.query('SELECT * FROM movies', (err, data) => {
+    res.render('index', { movies: data })
   })
 })
-//These will be API routes specifically for data 
-//GET
-//POST
-app.post("/api/movies", (req, res) => {
-  //insert into database
-  //inserting into movie column 
-  connection.query("INSERT INTO movies (movie) VALUES (?)", [newMovieText], (err, response) => {
+
+// API ROUTES
+
+// POST
+app.post('/api/movies', (req, res) => {
+  const newMovieText = req.body.newMovieText
+  // insert into database
+  connection.query('INSERT INTO movies (movie) VALUES (?)', [newMovieText], (err, response) => {
     if (err) throw err
-    //error message
+    // redirect to home route
     res.status(200).send()
   })
 })
-//PUT
-//DELETE
-app.delete("/api/movies/:id", (req, res) => {
+
+// PUT
+app.put('/api/movies/:id', (req, res) => {
   const id = req.params.id
-  connection.query("DELETE FROM movies WHERE ?", { id }, (err, result) => {
+  const updatedMovieText = req.body.updatedMovieText
+  connection.query('UPDATE movies SET movie = ? WHERE id = ?', [updatedMovieText, id], (err, result) => {
     if (err) throw err
-    //error message
+    res.status(200).send()
+  })
+})
+
+// DELETE
+app.delete('/api/movies/:id', (req, res) => {
+  const id = req.params.id
+  connection.query('DELETE FROM movies WHERE ?', { id }, (err, result) => {
+    if (err) throw err
+    // redirect to home route
     res.status(200).send()
   })
 })
