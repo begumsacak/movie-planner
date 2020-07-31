@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 //These will be API routes specifically for data 
 //GET
 //POST
-app.post"/api/movies", (req, res) => {
+app.post("/api/movies", (req, res) => {
   //insert into database
   //inserting into movie column 
   connection.query("INSERT INTO movies (movie) VALUES (?)", [newMovieText], (err, response) => {
@@ -54,7 +54,7 @@ app.post"/api/movies", (req, res) => {
 //PUT
 //DELETE
 app.delete("/api/movies/:id", (req,res) => {
-  
+
 })
 
 app.listen(PORT, () => console.log(`Server listening at http://localhost:${PORT}`))
