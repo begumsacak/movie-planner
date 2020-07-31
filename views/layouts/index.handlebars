@@ -4,29 +4,35 @@
         <!--Looping over movies-->
         {{{#each movies}}}
         <li>{{id}} - {{movie}}</li>
-        <button>&times;</button>
+        <button class="delete" data-movieId="{{{id}}}"">&times;</button>
         {{/each}}
     </ul>
 
     <h2>Add a movie</h2>
-    <input id="new-movie" type="text" />
-    <button id="new-movie-button">Add movie</button>
+    <input id=" new-movie" type="text" />
+        <button id="new-movie-button">Add movie</button>
 </div>
 
 <script>
     $(document).ready(function () {
         const $newMovieInput = $("#new-movie-input")
         const $newMovieButton = $("#new-movie-button")
-
+        const $deleteButtons = $(".delete")
         $newMovieButton.on("click", () => {
             const newMovieText = $newMovieInput.val().trim()
 
             $.ajax("/api/movies", {
                 type: "GET"
-                data: {newMovieText: newMovieText},
+                data: { newMovieText: newMovieText },
             }).then(location.reload())
-            .catch(err => console.log(err))
+                .catch(err => console.log(err))
         })
-    })
+
+        $deleteButton.on("click", function () {
+            this.data("movieId")
+            $.ajax(`/api/movies/${id}`)
+            then(() => location.reload())
+                .catch(err => console.log(err))
+        })
 
 </script>
